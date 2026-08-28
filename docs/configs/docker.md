@@ -199,6 +199,27 @@ labels: ...
   - homepage.widgets[1].slug=youreventslughere
 ```
 
+### Multiple Links
+
+A service discovered from labels can carry extra [related links](services.md#multiple-links) using the
+same indexed notation as multiple widgets.
+
+```yaml
+labels:
+  - homepage.group=Infrastructure
+  - homepage.name=Portainer
+  - homepage.icon=portainer.png
+  - homepage.href=http://portainer.home/
+  - homepage.description=Container Management
+  - homepage.links[0].name=Documentation
+  - homepage.links[0].href=https://docs.portainer.io/v2.0/
+  - homepage.links[0].icon=si-readthedocs
+  - homepage.links[1].name=GitHub
+  - homepage.links[1].href=https://github.com/portainer/portainer
+```
+
+Each link requires an `href`; entries without one are skipped.
+
 To pass custom HTTP headers with a widget request when using labels, use the same dot-notation: `homepage.widget.headers.X-Auth-Key=secret` (or `homepage.widgets[0].headers.X-Auth-Key=secret` when multiple widgets are present).
 
 You can add specify fields for e.g. the [CustomAPI](../widgets/services/customapi.md) widget by using array-style dot notation:

@@ -154,6 +154,32 @@ describe("utils/config/service-helpers", () => {
     expect(state.logger.warn).toHaveBeenCalled();
   });
 
+  it("cleanServiceGroups accepts the links shape produced by indexed docker labels", async () => {
+    const mod = await import("./service-helpers");
+    const { cleanServiceGroups } = mod;
+    const shvl = await import("./shvl");
+
+    // what shvl.set builds from homepage.links[0].href=... style labels
+    const service = {};
+    const labels = {
+      "links[0].name": "Documentation",
+      "links[0].href": "https://docs.example.com",
+      "links[0].icon": "si-readthedocs",
+      "links[1].name": "GitHub",
+      "links[1].href": "https://github.com/example",
+    };
+    Object.keys(labels).forEach((key) => shvl.set(service, key, labels[key]));
+
+    const cleaned = cleanServiceGroups([
+      { name: "Group", services: [{ name: "Portainer", widgets: [], ...service }], groups: [] },
+    ]);
+
+    expect(cleaned[0].services[0].links).toEqual([
+      { name: "Documentation", href: "https://docs.example.com", icon: "si-readthedocs" },
+      { name: "GitHub", href: "https://github.com/example" },
+    ]);
+  });
+
   it("cleanServiceGroups normalizes service links and drops invalid entries", async () => {
     const mod = await import("./service-helpers");
     const { cleanServiceGroups } = mod;

@@ -91,6 +91,9 @@ Each entry supports:
 | `description` | no       | Used as the button's tooltip, falling back to the link name.                                                  |
 | `target`      | no       | Per-link [link target](settings.md#link-target). Falls back to the service's target, then the global setting. |
 
+Links also work for services discovered from Docker or Kubernetes labels, using
+`homepage.links[0].href` style notation. See [Docker: Multiple Links](docker.md#multiple-links).
+
 The service's own `href`, widgets, ping and status indicators are unaffected — `links` only adds
 extra buttons to the card.
 
